@@ -1,42 +1,42 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Post} from "../models/post";
-import {PostsService} from "../services/posts.service";
-import {Subscription} from "rxjs/index";
-import {Book} from "../../../../bookshelves/src/app/models/book.model";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {PostModel} from '../models/post.model';
+import {PostsService} from '../services/posts.service';
+import {Subscription} from 'rxjs/index';
 
 @Component({
-  selector: 'app-post-list-item',
-  templateUrl: './post-list-item.component.html',
-  styleUrls: ['./post-list-item.component.scss']
+    selector: 'app-post-list-item',
+    templateUrl: './post-list-item.component.html',
+    styleUrls: ['./post-list-item.component.scss']
 })
 export class PostListItemComponent implements OnInit, OnDestroy {
 
 
-  posts: Post[];
-  postSubscription: Subscription;
+    posts: PostModel[];
+    postSubscription: Subscription;
 
-  constructor(private postsService:PostsService) { }
+    constructor(private postsService: PostsService) {
+    }
 
-  ngOnInit() {
+    ngOnInit() {
 
-      this.postSubscription = this.postsService.postsSubject.subscribe(
-          (posts: any[]) => {
-              this.posts = posts;
-          }
-      );
-      this.postsService.getPosts();
-      this.postsService.emitPostSubject();
-  }
+        this.postSubscription = this.postsService.postsSubject.subscribe(
+            (posts: any[]) => {
+                this.posts = posts;
+            }
+        );
+        this.postsService.emitPostSubject();
+    }
 
-    onLoveIt(post: Post){
+    onLoveIt(post: PostModel) {
 
         this.postsService.loveit(post);
     }
-    onDontLoveIt(post: Post){
+
+    onDontLoveIt(post: PostModel) {
         this.postsService.dontLoveit(post);
     }
 
-    onDeletePost(post: Post) {
+    onDeletePost(post: PostModel) {
         this.postsService.removePost(post);
     }
 

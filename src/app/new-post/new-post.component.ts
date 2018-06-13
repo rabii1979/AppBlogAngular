@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {PostsService} from "../services/posts.service";
-import {Post} from "../models/post";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {PostsService} from '../services/posts.service';
+import {PostModel} from '../models/post.model';
 
 @Component({
     selector: 'app-new-post',
@@ -33,8 +33,11 @@ export class NewPostComponent implements OnInit {
     onSavePost() {
         const title = this.postForm.get('title').value;
         const content = this.postForm.get('content').value;
+        const created_at = new Date();
 
-        const newPost = new Post(title, content, 0, new Date());
+        const newPost = new PostModel(title, content, 0, new Date());
+
+        newPost.created_at = new Date();
 
         this.postsService.createNewPost(newPost);
         this.router.navigate(['/posts']);
